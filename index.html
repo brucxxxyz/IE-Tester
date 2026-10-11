@@ -8,7 +8,7 @@
 </style>
 </head>
 <body><main class="app">
-<header class="heading"><div><h1>人格分裂器</h1><div class="sub">PERSONALITY SPLITTER // SOCIAL ENERGY</div></div><span class="version">v1.4.1</span></header>
+<header class="heading"><div><h1>人格分裂器</h1><div class="sub">PERSONALITY SPLITTER // SOCIAL ENERGY</div></div><span class="version">v1.5</span></header>
 <div class="langs" role="group" aria-label="Choose language"><button type="button" class="lang" data-lang="zh" aria-pressed="false">国语</button><button type="button" class="lang" data-lang="yue" aria-pressed="true">粵語</button><button type="button" class="lang" data-lang="en" aria-pressed="false">English</button></div>
 
 <section aria-label="Social energy"><div class="labels"><span class="i">I · INTROVERT</span><span class="balance">BALANCE</span><span class="e">E · EXTROVERT</span></div>
@@ -24,11 +24,7 @@ const states={
  zh:[['人间蒸发模式','本人已退出群聊，但肉身还在现场。','有急事请留言，没急事别制造急事。'],['社交省电模式','不是不想说话，是每句话都要交电费。','今日限量十句，哈哈哈算三句。'],['人格维修中','系统暂时分不清我是人还是充电宝。','请勿拍打，本人格稍后重启。'],['开始有点疯','本来打算矜持一点，结果嘴巴有自己的想法。','如有失控迹象，请用零食转移注意力。'],['已进入发疯模式','有投诉？请找 E 值 100% 时的我。','友情提示：你现在找的就是。投诉未必受理。']],
  en:[['GHOST MODE','I have left the chat. My body is still here.','For emergencies, leave a message.'],['POWER SAVING','Every sentence costs battery. I\'m on a budget.','Ten sentences left. LOL counts as three.'],['PERSONALITY REBOOT','Am I a person or a portable charger? Still checking.','Please do not tap the machine.'],['CHAOS LOADING','I planned to be classy. My mouth had other plans.','In case of chaos, distract me with snacks.'],['FULL CHAOS MODE','Complaints? Please contact me at 100% E.','Plot twist: you\'re already talking to that person.']]
 };
-const questions={
- yue:[['01 · 現在更想點？','自己靜靜充電','一個人或一班人都得','搵朋友吹水玩吓'],['02 · 諗起接下來嘅聚會？','想休息多啲','睇心情啦','好期待，準備開咪'],['03 · 而家社交電量？','低電量','一般般','爆滿，想熱鬧']],
- zh:[['01 · 现在更想怎样？','自己安静充电','一个人或和朋友都行','找朋友聊天玩一玩'],['02 · 想到接下来的聚会？','想多休息','看心情','很期待，准备开聊'],['03 · 现在社交电量？','电量偏低','一般','满格，想热闹']],
- en:[['01 · What sounds best right now?','Recharge alone','Either is fine','Chat and hang out'],['02 · Thinking about a gathering?','Prefer some rest','Depends on the mood','Excited to join in'],['03 · Your social battery?','Running low','Doing okay','Fully charged']]
-};
+const questionBank=[{"id":"Q01","yue":["想放鬆嘅時候，你會？","自己靜靜充電","睇情況","搵朋友吹水"],"zh":["想放松时，你会？","独自安静充电","看情况","找朋友聊天"],"en":["When relaxing, you prefer…","Quiet time alone","Depends","Chatting with friends"]},{"id":"Q02","yue":["臨時有人約你出街？","想留喺屋企","睇吓有幾熟","即刻出發"],"zh":["有人临时约你出门？","想待在家","看有多熟","马上出发"],"en":["A last-minute hangout invite?","Stay home","Depends who","Count me in"]},{"id":"Q03","yue":["聚會去到一半，你通常？","搵個角落回血","跟住節奏","越玩越精神"],"zh":["聚会进行到一半，你通常？","找角落充电","跟着节奏","越玩越精神"],"en":["Halfway through a party?","Find a quiet corner","Go with the flow","Just warming up"]},{"id":"Q04","yue":["群組突然刷屏，你會？","靜音先算","得閒先覆","即刻加入戰團"],"zh":["群聊突然刷屏，你会？","先静音","有空再回","马上加入"],"en":["Group chat goes wild?","Mute it","Reply later","Jump right in"]},{"id":"Q05","yue":["喺陌生人聚會，你會？","先觀察環境","等人開話題","主動打招呼"],"zh":["在陌生人聚会上，你会？","先观察","等人开话题","主动打招呼"],"en":["At a room full of strangers?","Observe first","Wait for a topic","Say hello first"]},{"id":"Q06","yue":["周末最吸引你嘅係？","自己慢慢過","一半一半","約一班朋友"],"zh":["周末你最期待？","自己慢慢过","各占一半","约一群朋友"],"en":["Your ideal weekend?","Solo downtime","A little of both","Friends everywhere"]},{"id":"Q07","yue":["朋友話要去唱 K，你會？","聽歌就夠","唱兩首","搶咪暖場"],"zh":["朋友约唱 K，你会？","听歌就好","唱两首","拿麦暖场"],"en":["Karaoke night?","Happy to listen","A couple of songs","Hand me the mic"]},{"id":"Q08","yue":["今日突然多咗兩個活動，你會？","留返啲時間畀自己","揀一個","兩場都去"],"zh":["今天突然多了两个活动？","留点独处时间","选一个","两场都去"],"en":["Two surprise plans today?","Keep solo time","Pick one","Both, obviously"]},{"id":"Q09","yue":["見到熟人，你通常？","點頭微笑","傾幾句","直接開吹水模式"],"zh":["看到熟人，你通常？","点头微笑","聊几句","开启聊天模式"],"en":["You bump into a friend?","Smile and wave","Catch up briefly","Start a full podcast"]},{"id":"Q10","yue":["活動結束之後，你想？","即刻返屋企","睇吓攰唔攰","續第二場"],"zh":["活动结束后，你想？","马上回家","看累不累","继续下一场"],"en":["After the event?","Home, please","See how I feel","After-party time"]},{"id":"Q11","yue":["有人叫你玩破冰遊戲？","睇其他人玩先","玩吓都得","第一個舉手"],"zh":["有人邀请你玩破冰游戏？","先看别人玩","可以试试","第一个举手"],"en":["Icebreaker game starts?","Watch first","Sure, maybe","First volunteer"]},{"id":"Q12","yue":["你今日想講幾多嘢？","少少就夠","隨緣","把口停唔到"],"zh":["今天你想聊多少？","少说一点","随缘","根本停不下来"],"en":["How chatty are you today?","Not much","Depends","Non-stop"]},{"id":"Q13","yue":["喺咖啡店，你偏向？","一個人慢慢坐","有伴都幾好","同朋友坐滿成枱"],"zh":["在咖啡店，你偏向？","一个人安静坐着","有伴也不错","和一桌朋友聊天"],"en":["At a café?","Solo corner","Either way","Big friend table"]},{"id":"Q14","yue":["接到朋友突然來電？","遲啲再覆","睇吓方唔方便","即刻接起吹水"],"zh":["朋友突然来电话？","晚点再回","看是否方便","立刻接起来聊"],"en":["A surprise phone call?","Call back later","If convenient","Pick up and chat"]},{"id":"Q15","yue":["此刻最想要嘅氣氛？","安靜啲","舒服就得","熱鬧到飛起"],"zh":["此刻最想要的氛围？","安静一点","舒服就行","越热闹越好"],"en":["Your vibe right now?","Peace and quiet","Easygoing","Full-on party"]}];
 const legalText={
  yue:{sections:[
  ['娛樂用途','「人格分裂器」係獨立、免費嘅娛樂測試工具，只供玩樂同自我觀察；唔係正式人格測評、心理評估或醫學診斷。名稱只屬趣味創作。'],
@@ -53,11 +49,40 @@ function renderLegal(){const d=$('legalContent');d.replaceChildren();legalText[l
 const $=id=>document.getElementById(id); const energy=$('energy'); let lang='yue'; let tested=false;
 const tier=v=>v<=-70?0:v<0?1:v===0?2:v<100?3:4;
 function render(){ $('pretest').hidden=tested; $('card').hidden=!tested; energy.disabled=!tested; $('reset').hidden=!tested; $('meter').classList.toggle('unready',!tested); if(!tested)return; const v=Number(energy.value);const mode=v<0?'i':v>0?'e':'b';const color=mode==='i'?'#6ee5f5':mode==='e'?'#ff95c9':'#dac8ff';const card=$('card');card.className='card '+mode+'-mode';card.style.color=color;$('energyType').textContent=mode==='i'?'☾ I ENERGY':mode==='e'?'☼ E ENERGY':'◉ BALANCE';$('energyValue').textContent=v===0?'BALANCE':`${Math.abs(v)}% ${v<0?'I':'E'}`;$('modeLabel').textContent=mode==='i'?'INTROVERT MODE':mode==='e'?'EXTROVERT MODE':'BALANCE MODE';const s=states[lang][tier(v)];$('stateTitle').textContent=s[0];$('mainline').textContent=s[1];$('secondline').textContent=s[2]}
-function renderQuestions(){const selected=[0,1,2].map(i=>document.querySelector(`input[name="q${i}"]:checked`)?.value??null);const container=$('questions');container.replaceChildren();questions[lang].forEach((q,i)=>{const f=document.createElement('fieldset');const legend=document.createElement('legend');legend.textContent=q[0];f.append(legend);[-2,0,2].forEach((score,j)=>{const label=document.createElement('label');label.className='choice';const radio=document.createElement('input');radio.type='radio';radio.name='q'+i;radio.value=score;radio.checked=selected[i]===String(score);radio.addEventListener('change',updateGenerate);label.append(radio,document.createTextNode(q[j+1]));f.append(label)});container.append(f)});updateGenerate()}
-function updateGenerate(){$('generate').disabled=[0,1,2].some(i=>!document.querySelector(`input[name="q${i}"]:checked`))}
+let currentIds=[];
+let selections={};
+function drawRound(){
+ const previous=new Set(currentIds);
+ const pool=questionBank.filter(q=>!previous.has(q.id));
+ for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+ currentIds=pool.slice(0,3).map(q=>q.id);
+ selections={};renderQuestions();
+}
+function renderQuestions(){
+ const container=$('questions');container.replaceChildren();
+ currentIds.forEach((id,i)=>{
+  const q=questionBank.find(item=>item.id===id)[lang];
+  const f=document.createElement('fieldset');const legend=document.createElement('legend');
+  legend.textContent=String(i+1).padStart(2,'0')+' · '+q[0];f.append(legend);
+  [-2,0,2].forEach((score,j)=>{
+   const label=document.createElement('label');label.className='choice';
+   const radio=document.createElement('input');radio.type='radio';radio.name='q'+i;
+   radio.value=String(score);radio.checked=selections[id]===score;
+   radio.addEventListener('change',()=>{selections[id]=score;updateGenerate();});
+   label.append(radio,document.createTextNode(q[j+1]));f.append(label);
+  });container.append(f);
+ });updateGenerate();
+}
+function updateGenerate(){$('generate').disabled=currentIds.length!==3||currentIds.some(id=>!Object.hasOwn(selections,id));}
 energy.addEventListener('input',render);
 document.querySelectorAll('.lang').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;document.documentElement.lang=lang==='en'?'en':lang==='zh'?'zh-Hans':'zh-Hant';document.querySelectorAll('.lang').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('pretestReady').textContent=lang==='en'?'Personality loading…':lang==='zh'?'等待人格上线…':'等待人格上線…';$('pretestHelp').textContent=lang==='en'?"Take a 15-second check to see today's social mode.":lang==='zh'?'先做个 15 秒测试，看看今天的你有多 I / E。':'先做個 15 秒測試，睇吓你今日有幾 I / E。';$('autoHint').textContent=lang==='en'?'15 sec · 3-question check':lang==='zh'?'15 秒 · 三题自测':'15 秒 · 三題自測';$('autoNote').textContent=lang==='en'?'Just for fun and self-reflection. You can always move the slider.':lang==='zh'?'结果仅供娱乐及自我观察，可随时手动调整。':'結果僅供娛樂及自我觀察，可隨時手動調整。';renderQuestions();renderLegal();render()}));
-$('autoToggle').addEventListener('click',()=>{const opening=$('autoToggle').getAttribute('aria-expanded')!=='true';$('autoToggle').setAttribute('aria-expanded',String(opening));$('autoBody').hidden=!opening;$('chevron').textContent=opening?'⌃':'⌄'});
-$('quiz').addEventListener('submit',ev=>{ev.preventDefault();const answers=[0,1,2].map(i=>document.querySelector(`input[name="q${i}"]:checked`));if(answers.some(a=>!a))return;const total=answers.reduce((sum,a)=>sum+Number(a.value),0);energy.value=String(Math.max(-100,Math.min(100,Math.round((total/6*100)/5)*5)));tested=true;render();$('autoToggle').setAttribute('aria-expanded','false');$('autoBody').hidden=true;$('chevron').textContent='⌄'});
-$('reset').addEventListener('click',()=>{energy.value='0';render()});renderQuestions();renderLegal();render();
+$('autoToggle').addEventListener('click',()=>{const opening=$('autoToggle').getAttribute('aria-expanded')!=='true';$('autoToggle').setAttribute('aria-expanded',String(opening));$('autoBody').hidden=!opening;$('chevron').textContent=opening?'⌃':'⌄';if(opening&&tested)drawRound();});
+$('quiz').addEventListener('submit',ev=>{
+ ev.preventDefault();if(currentIds.length!==3||currentIds.some(id=>!Object.hasOwn(selections,id)))return;
+ const total=currentIds.reduce((sum,id)=>sum+selections[id],0);
+ energy.value=String(Math.max(-100,Math.min(100,Math.round((total/6*100)/5)*5)));
+ tested=true;render();$('autoToggle').setAttribute('aria-expanded','false');
+ $('autoBody').hidden=true;$('chevron').textContent='⌄';
+});
+$('reset').addEventListener('click',()=>{energy.value='0';render()});drawRound();renderLegal();render();
 </script></body></html>
