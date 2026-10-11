@@ -8,7 +8,7 @@
 </style>
 </head>
 <body><main class="app">
-<header class="heading"><div><h1>人格分裂器</h1><div class="sub">PERSONALITY SPLITTER // SOCIAL ENERGY</div></div><span class="version">v1.5</span></header>
+<header class="heading"><div><h1 id="appTitle">人格分裂器</h1><div class="sub">PERSONALITY SPLITTER // SOCIAL ENERGY</div></div><span class="version">v1.5</span></header>
 <div class="langs" role="group" aria-label="Choose language"><button type="button" class="lang" data-lang="zh" aria-pressed="false">国语</button><button type="button" class="lang" data-lang="yue" aria-pressed="true">粵語</button><button type="button" class="lang" data-lang="en" aria-pressed="false">English</button></div>
 
 <section aria-label="Social energy"><div class="labels"><span class="i">I · INTROVERT</span><span class="balance">BALANCE</span><span class="e">E · EXTROVERT</span></div>
@@ -75,7 +75,7 @@ function renderQuestions(){
 }
 function updateGenerate(){$('generate').disabled=currentIds.length!==3||currentIds.some(id=>!Object.hasOwn(selections,id));}
 energy.addEventListener('input',render);
-document.querySelectorAll('.lang').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;document.documentElement.lang=lang==='en'?'en':lang==='zh'?'zh-Hans':'zh-Hant';document.querySelectorAll('.lang').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('pretestReady').textContent=lang==='en'?'Personality loading…':lang==='zh'?'等待人格上线…':'等待人格上線…';$('pretestHelp').textContent=lang==='en'?"Take a 15-second check to see today's social mode.":lang==='zh'?'先做个 15 秒测试，看看今天的你有多 I / E。':'先做個 15 秒測試，睇吓你今日有幾 I / E。';$('autoHint').textContent=lang==='en'?'15 sec · 3-question check':lang==='zh'?'15 秒 · 三题自测':'15 秒 · 三題自測';$('autoNote').textContent=lang==='en'?'Just for fun and self-reflection. You can always move the slider.':lang==='zh'?'结果仅供娱乐及自我观察，可随时手动调整。':'結果僅供娛樂及自我觀察，可隨時手動調整。';renderQuestions();renderLegal();render()}));
+document.querySelectorAll('.lang').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang; document.getElementById('appTitle').textContent = lang === 'en' ? 'PERSONALITY SPLITTER' : '人格分裂器'; document.documentElement.lang=lang==='en'?'en':lang==='zh'?'zh-Hans':'zh-Hant';document.querySelectorAll('.lang').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('pretestReady').textContent=lang==='en'?'Personality loading…':lang==='zh'?'等待人格上线…':'等待人格上線…';$('pretestHelp').textContent=lang==='en'?"Take a 15-second check to see today's social mode.":lang==='zh'?'先做个 15 秒测试，看看今天的你有多 I / E。':'先做個 15 秒測試，睇吓你今日有幾 I / E。';$('autoHint').textContent=lang==='en'?'15 sec · 3-question check':lang==='zh'?'15 秒 · 三题自测':'15 秒 · 三題自測';$('autoNote').textContent=lang==='en'?'Just for fun and self-reflection. You can always move the slider.':lang==='zh'?'结果仅供娱乐及自我观察，可随时手动调整。':'結果僅供娛樂及自我觀察，可隨時手動調整。';renderQuestions();renderLegal();render()}));
 $('autoToggle').addEventListener('click',()=>{const opening=$('autoToggle').getAttribute('aria-expanded')!=='true';$('autoToggle').setAttribute('aria-expanded',String(opening));$('autoBody').hidden=!opening;$('chevron').textContent=opening?'⌃':'⌄';if(opening&&tested)drawRound();});
 $('quiz').addEventListener('submit',ev=>{
  ev.preventDefault();if(currentIds.length!==3||currentIds.some(id=>!Object.hasOwn(selections,id)))return;
